@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLaunchContext } from "../context/LaunchContext";
 
 function Timeline() {
   const { launch } = useLaunchContext();
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState("month");
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -460,12 +462,18 @@ function Timeline() {
                         {dates.map((day) => {
                           const isToday = day === 5; // Mock today as Oct 5
                           return (
-                            <div 
-                              key={day} 
-                              className={`roadmap-grid-cell ${isToday ? "today" : ""}`}
-                              style={isToday ? {
-                                background: "rgba(191, 219, 254, 0.1)",
-                              } : {}}
+                            <div
+                              key={day}
+                              className={`roadmap-grid-cell ${
+                                isToday ? "today" : ""
+                              }`}
+                              style={
+                                isToday
+                                  ? {
+                                      background: "rgba(191, 219, 254, 0.1)",
+                                    }
+                                  : {}
+                              }
                             ></div>
                           );
                         })}
@@ -676,7 +684,13 @@ function Timeline() {
                   <div className="communication-list">
                     {taskDetails[selectedTask.id].communications.map(
                       (comm, idx) => (
-                        <div key={idx} className="communication-item">
+                        <div
+                          key={idx}
+                          className="communication-item clickable"
+                          onClick={() =>
+                            navigate(`/launch/${launch?.id}/communications`)
+                          }
+                        >
                           <div className="communication-icon">
                             {comm.type === "email"
                               ? "📧"
@@ -692,6 +706,14 @@ function Timeline() {
                               {comm.date}
                             </div>
                           </div>
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "var(--text-muted)",
+                            }}
+                          >
+                            →
+                          </span>
                         </div>
                       )
                     )}

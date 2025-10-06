@@ -4,51 +4,72 @@ function Settings() {
   const integrations = [
     {
       name: "Jira",
-      icon: "🎯",
+      logo: "https://cdn.simpleicons.org/jira/0052CC",
       connected: true,
       description: "Create and manage epics, track issues",
       lastSync: "2 hours ago",
     },
     {
       name: "Google Sheets",
-      icon: "📊",
+      logo: "https://cdn.simpleicons.org/googlesheets/34A853",
       connected: true,
       description: "Timeline management and tracking",
       lastSync: "5 minutes ago",
     },
     {
       name: "Slack",
-      icon: "💬",
+      logo: "https://cdn.simpleicons.org/slack/E01E5A",
       connected: true,
       description: "Team notifications and updates",
       lastSync: "1 hour ago",
     },
     {
       name: "Gmail",
-      icon: "📧",
+      logo: "https://cdn.simpleicons.org/gmail/EA4335",
       connected: true,
       description: "Email communications and drafts",
       lastSync: "30 minutes ago",
     },
     {
       name: "Loom",
-      icon: "🎥",
+      logo: "https://cdn.simpleicons.org/loom/625DF5",
       connected: true,
       description: "Video messages and walkthroughs",
       lastSync: "15 minutes ago",
     },
     {
       name: "Confluence",
-      icon: "📝",
+      logo: "https://cdn.simpleicons.org/confluence/172B4D",
       connected: false,
       description: "Documentation and knowledge base",
       lastSync: null,
     },
     {
       name: "Google Calendar",
-      icon: "📅",
+      logo: "https://cdn.simpleicons.org/googlecalendar/4285F4",
       connected: false,
       description: "Schedule milestones and meetings",
+      lastSync: null,
+    },
+    {
+      name: "Google Drive",
+      logo: "https://cdn.simpleicons.org/googledrive/4285F4",
+      connected: false,
+      description: "Document storage and sharing",
+      lastSync: null,
+    },
+    {
+      name: "Notion",
+      logo: "https://cdn.simpleicons.org/notion/000000",
+      connected: false,
+      description: "Documentation and project management",
+      lastSync: null,
+    },
+    {
+      name: "Linear",
+      logo: "https://cdn.simpleicons.org/linear/5E6AD2",
+      connected: false,
+      description: "Issue tracking and project management",
       lastSync: null,
     },
   ];
@@ -73,7 +94,13 @@ function Settings() {
             {integrations.map((integration, index) => (
               <div key={index} className="integration-card">
                 <div className="integration-header">
-                  <div className="integration-icon">{integration.icon}</div>
+                  <div className="integration-icon">
+                    <img
+                      src={integration.logo}
+                      alt={integration.name}
+                      className="integration-logo"
+                    />
+                  </div>
                   <div className="integration-name">{integration.name}</div>
                 </div>
                 <div className="integration-status">

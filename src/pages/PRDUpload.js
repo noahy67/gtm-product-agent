@@ -48,7 +48,7 @@ function PRDUpload() {
                   <div className="prd-source-meta">
                     <span className="prd-source-badge">
                       <img
-                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%235E6AD2' d='M1.5 1.5l5.25 12.5L12 8.75l5.25-5.25L1.5 1.5z'/%3E%3C/svg%3E"
+                        src="https://cdn.simpleicons.org/linear/5E6AD2"
                         alt="Linear"
                         style={{ width: "14px", height: "14px" }}
                       />

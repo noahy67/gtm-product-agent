@@ -17,8 +17,7 @@ function CreateLaunch() {
     { id: 1, label: "Upload PRD", status: "upcoming" },
     { id: 2, label: "Analyze PRD", status: "upcoming" },
     { id: 3, label: "Generate Plan", status: "upcoming" },
-    { id: 4, label: "SLA & Timeline", status: "upcoming" },
-    { id: 5, label: "Review & Confirm", status: "upcoming" },
+    { id: 4, label: "Review & Confirm", status: "upcoming" },
   ];
 
   const getStepStatus = (stepId) => {
@@ -101,8 +100,7 @@ function CreateLaunch() {
         {currentStep === 1 && <Step1UploadPRD />}
         {currentStep === 2 && <Step2AnalyzePRD />}
         {currentStep === 3 && <Step3GeneratePlan />}
-        {currentStep === 4 && <Step4SLATimeline />}
-        {currentStep === 5 && <Step5ReviewConfirm launchData={launchData} />}
+        {currentStep === 4 && <Step5ReviewConfirm launchData={launchData} />}
       </div>
 
       {/* Navigation */}
@@ -246,21 +244,39 @@ function Step1UploadPRD() {
 
         <div className="import-buttons">
           <button className="import-btn">
-            <div className="import-icon">📁</div>
+            <div className="import-icon import-icon-logo">
+              <img
+                src="https://cdn.simpleicons.org/googledrive/4285F4"
+                alt="Google Drive"
+                style={{ width: "32px", height: "32px" }}
+              />
+            </div>
             <div>
               <div className="import-name">Google Drive</div>
               <div className="import-desc">Import from Drive</div>
             </div>
           </button>
           <button className="import-btn">
-            <div className="import-icon">🔷</div>
+            <div className="import-icon import-icon-logo">
+              <img
+                src="https://cdn.simpleicons.org/confluence/172B4D"
+                alt="Confluence"
+                style={{ width: "32px", height: "32px" }}
+              />
+            </div>
             <div>
               <div className="import-name">Confluence</div>
               <div className="import-desc">Import from Confluence</div>
             </div>
           </button>
           <button className="import-btn">
-            <div className="import-icon">◼️</div>
+            <div className="import-icon import-icon-logo">
+              <img
+                src="https://cdn.simpleicons.org/notion/000000"
+                alt="Notion"
+                style={{ width: "32px", height: "32px" }}
+              />
+            </div>
             <div>
               <div className="import-name">Notion</div>
               <div className="import-desc">Import from Notion</div>
@@ -512,98 +528,7 @@ function Step3GeneratePlan() {
   );
 }
 
-// Step 4: SLA & Timeline
-function Step4SLATimeline() {
-  return (
-    <div className="step-container">
-      <div className="step-header">
-        <h2 className="step-title">SLA & Timeline Setup</h2>
-        <p className="step-subtitle">
-          Configure accountability and monitoring rules
-        </p>
-      </div>
-
-      <div className="sla-section">
-        <div className="sla-card">
-          <h3 className="sla-card-title">Timeline Overview</h3>
-          <div className="mini-timeline">
-            <div className="mini-timeline-item">
-              <div className="mini-timeline-dot"></div>
-              <div>
-                <div className="mini-timeline-title">Pre-launch Review</div>
-                <div className="mini-timeline-date">Oct 8, 2025</div>
-              </div>
-            </div>
-            <div className="mini-timeline-item">
-              <div className="mini-timeline-dot"></div>
-              <div>
-                <div className="mini-timeline-title">Legal Sign-off</div>
-                <div className="mini-timeline-date">Oct 12, 2025</div>
-              </div>
-            </div>
-            <div className="mini-timeline-item">
-              <div className="mini-timeline-dot active"></div>
-              <div>
-                <div className="mini-timeline-title">🚀 Launch Day</div>
-                <div className="mini-timeline-date">Oct 15, 2025</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="sla-card">
-          <h3 className="sla-card-title">SLA Rules</h3>
-          <div className="sla-table">
-            <div className="sla-row header">
-              <div>Stage</div>
-              <div>SLA Rule</div>
-              <div>Owner</div>
-              <div>Editable</div>
-            </div>
-            <div className="sla-row">
-              <div>QA Review</div>
-              <div>48h max</div>
-              <div>QA Team</div>
-              <div>✅</div>
-            </div>
-            <div className="sla-row">
-              <div>Design Handoff</div>
-              <div>3d max</div>
-              <div>Design Team</div>
-              <div>✅</div>
-            </div>
-            <div className="sla-row">
-              <div>Legal Review</div>
-              <div>5d max</div>
-              <div>Legal Team</div>
-              <div>✅</div>
-            </div>
-            <div className="sla-row">
-              <div>Marketing Approval</div>
-              <div>2d max</div>
-              <div>Marketing Lead</div>
-              <div>✅</div>
-            </div>
-          </div>
-          <button className="btn btn-secondary" style={{ marginTop: "16px" }}>
-            + Add Custom SLA
-          </button>
-        </div>
-
-        <div className="sla-info-banner">
-          <span>💡</span>
-          <div>
-            <strong>Automated Monitoring:</strong> GTM Agent will automatically
-            monitor these SLAs and send nudges via Slack or email when deadlines
-            approach or are breached.
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Step 5: Review & Confirm
+// Step 4: Review & Confirm (previously Step 5)
 function Step5ReviewConfirm({ launchData }) {
   return (
     <div className="step-container">
@@ -655,8 +580,8 @@ function Step5ReviewConfirm({ launchData }) {
               <div className="review-stat-label">Subtasks</div>
             </div>
             <div className="review-stat">
-              <div className="review-stat-value">4</div>
-              <div className="review-stat-label">SLA Rules</div>
+              <div className="review-stat-value">12</div>
+              <div className="review-stat-label">Stakeholders</div>
             </div>
           </div>
         </div>

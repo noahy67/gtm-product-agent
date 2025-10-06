@@ -33,39 +33,108 @@ function LaunchDashboard() {
       </div>
       <div className="content">
         <div className="dashboard">
-          {/* Stats Grid */}
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-header">
-                <span>✅</span>
-                <span>Epics Created</span>
-              </div>
-              <div className="stat-value">24</div>
-              <div className="stat-label">from Jira</div>
+          {/* Notifications Carousel */}
+          <div className="section">
+            <div className="section-header">
+              <h2 className="section-title">Action Items</h2>
+              <span style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+                5 items require your attention
+              </span>
             </div>
-            <div className="stat-card">
-              <div className="stat-header">
-                <span>⏱️</span>
-                <span>Deadlines This Week</span>
+            <div className="notifications-carousel">
+              <div className="notification-card urgent">
+                <div className="notification-header">
+                  <span className="notification-icon">⚠️</span>
+                  <span className="notification-priority">Urgent</span>
+                </div>
+                <h3 className="notification-title">
+                  Legal Review Deadline Approaching
+                </h3>
+                <p className="notification-description">
+                  Terms of service updates need approval by Oct 12 (48h
+                  remaining)
+                </p>
+                <div className="notification-footer">
+                  <span className="notification-meta">
+                    Sarah Johnson • Legal
+                  </span>
+                  <button className="notification-action">
+                    View Details →
+                  </button>
+                </div>
               </div>
-              <div className="stat-value">7</div>
-              <div className="stat-label">from Google Sheets</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-header">
-                <span>⚠️</span>
-                <span>Risks Flagged</span>
+
+              <div className="notification-card warning">
+                <div className="notification-header">
+                  <span className="notification-icon">📋</span>
+                  <span className="notification-priority">Needs Approval</span>
+                </div>
+                <h3 className="notification-title">
+                  Marketing Assets Ready for Review
+                </h3>
+                <p className="notification-description">
+                  3 communications drafts are pending your approval before
+                  scheduled send
+                </p>
+                <div className="notification-footer">
+                  <span className="notification-meta">Communications Hub</span>
+                  <button className="notification-action">Review →</button>
+                </div>
               </div>
-              <div className="stat-value">3</div>
-              <div className="stat-label">from Jira SLA checks</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-header">
-                <span>📣</span>
-                <span>Pending Approvals</span>
+
+              <div className="notification-card info">
+                <div className="notification-header">
+                  <span className="notification-icon">📊</span>
+                  <span className="notification-priority">
+                    Update Available
+                  </span>
+                </div>
+                <h3 className="notification-title">PRD Updated in Linear</h3>
+                <p className="notification-description">
+                  2 changes detected in source document. Sync to update
+                  execution plan.
+                </p>
+                <div className="notification-footer">
+                  <span className="notification-meta">2 hours ago</span>
+                  <button className="notification-action">Sync Now →</button>
+                </div>
               </div>
-              <div className="stat-value">5</div>
-              <div className="stat-label">awaiting review</div>
+
+              <div className="notification-card success">
+                <div className="notification-header">
+                  <span className="notification-icon">✅</span>
+                  <span className="notification-priority">Completed</span>
+                </div>
+                <h3 className="notification-title">
+                  QA Testing Sign-off Received
+                </h3>
+                <p className="notification-description">
+                  All functional and performance tests passed. Ready for launch.
+                </p>
+                <div className="notification-footer">
+                  <span className="notification-meta">Yesterday • QA Team</span>
+                  <button className="notification-action">View Report →</button>
+                </div>
+              </div>
+
+              <div className="notification-card info">
+                <div className="notification-header">
+                  <span className="notification-icon">👥</span>
+                  <span className="notification-priority">Action Required</span>
+                </div>
+                <h3 className="notification-title">
+                  Stakeholder Meeting Scheduled
+                </h3>
+                <p className="notification-description">
+                  Final alignment meeting before launch - Oct 14 at 2:00 PM
+                </p>
+                <div className="notification-footer">
+                  <span className="notification-meta">12 attendees</span>
+                  <button className="notification-action">
+                    Add to Calendar →
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -151,67 +220,6 @@ function LaunchDashboard() {
                   }}
                 ></div>
                 <span style={{ color: "var(--text-secondary)" }}>Delayed</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="section">
-            <div className="section-header">
-              <h2 className="section-title">Quick Actions</h2>
-            </div>
-            <div className="quick-actions">
-              <div className="action-btn">
-                <div className="action-icon">➕</div>
-                <div className="action-title">Upload PRD</div>
-                <div
-                  style={{
-                    fontSize: "12px",
-                    color: "var(--text-muted)",
-                    marginTop: "4px",
-                  }}
-                >
-                  Auto-trigger parsing
-                </div>
-              </div>
-              <div className="action-btn">
-                <div className="action-icon">🔁</div>
-                <div className="action-title">Sync Updates</div>
-                <div
-                  style={{
-                    fontSize: "12px",
-                    color: "var(--text-muted)",
-                    marginTop: "4px",
-                  }}
-                >
-                  Fetch latest statuses
-                </div>
-              </div>
-              <div className="action-btn">
-                <div className="action-icon">📄</div>
-                <div className="action-title">Generate Summary</div>
-                <div
-                  style={{
-                    fontSize: "12px",
-                    color: "var(--text-muted)",
-                    marginTop: "4px",
-                  }}
-                >
-                  Route for approval
-                </div>
-              </div>
-              <div className="action-btn">
-                <div className="action-icon">✉️</div>
-                <div className="action-title">Draft Announcement</div>
-                <div
-                  style={{
-                    fontSize: "12px",
-                    color: "var(--text-muted)",
-                    marginTop: "4px",
-                  }}
-                >
-                  Create new draft
-                </div>
               </div>
             </div>
           </div>

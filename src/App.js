@@ -19,14 +19,12 @@ import Timeline from "./pages/Timeline";
 import Communications from "./pages/Communications";
 import Settings from "./pages/Settings";
 import CreateLaunch from "./pages/CreateLaunch";
-import SLARules from "./pages/SLARules";
 
 function UnifiedSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [launchesExpanded, setLaunchesExpanded] = React.useState(true);
   const [expandedLaunchId, setExpandedLaunchId] = React.useState(null);
-  const [searchQuery, setSearchQuery] = React.useState("");
 
   // Determine current launch from URL
   const currentLaunchId = location.pathname.match(/\/launch\/([^/]+)/)?.[1];
@@ -64,9 +62,7 @@ function UnifiedSidebar() {
     }
   };
 
-  const filteredLaunches = launches.filter((launch) =>
-    launch.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredLaunches = launches;
 
   const toggleLaunch = (launchId) => {
     if (expandedLaunchId === launchId) {
@@ -119,17 +115,6 @@ function UnifiedSidebar() {
 
           {launchesExpanded && (
             <div className="nav-submenu">
-              {/* Search */}
-              <div className="launch-search">
-                <input
-                  type="text"
-                  placeholder="Search launches..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="launch-search-input"
-                />
-              </div>
-
               {/* Launch List */}
               {filteredLaunches.map((launch) => (
                 <div key={launch.id} className="launch-item-container">
@@ -147,10 +132,6 @@ function UnifiedSidebar() {
                     </span>
                     <div className="launch-item-content">
                       <div className="launch-item-title">
-                        <span
-                          className="status-dot"
-                          style={{ background: getStatusColor(launch.status) }}
-                        ></span>
                         <span className="launch-name">{launch.name}</span>
                       </div>
                       <span
@@ -200,18 +181,8 @@ function UnifiedSidebar() {
           )}
         </div>
 
-        {/* SLA Rules */}
+        {/* Settings */}
         <div className="nav-section">
-          <Link
-            to="/sla-rules"
-            className={`nav-item ${
-              location.pathname === "/sla-rules" ? "active" : ""
-            }`}
-          >
-            <span className="nav-icon">⏱️</span>
-            <span>SLA Rules</span>
-          </Link>
-
           <Link
             to="/settings"
             className={`nav-item ${
@@ -275,14 +246,6 @@ function App() {
           element={
             <AppLayout>
               <LaunchesList />
-            </AppLayout>
-          }
-        />
-        <Route
-          path="/sla-rules"
-          element={
-            <AppLayout>
-              <SLARules />
             </AppLayout>
           }
         />
