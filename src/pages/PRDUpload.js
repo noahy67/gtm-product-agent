@@ -84,7 +84,7 @@ function PRDUpload() {
             </div>
 
             {/* Sync Instructions */}
-            <div className="prd-sync-info">
+            {/* <div className="prd-sync-info">
               <div className="prd-sync-info-icon">💡</div>
               <div>
                 <strong>How syncing works:</strong> When auto-sync is enabled,
@@ -92,7 +92,7 @@ function PRDUpload() {
                 every hour. Manual sync pulls the latest version immediately.
                 Changes are tracked in the timeline below.
               </div>
-            </div>
+            </div> */}
 
             {/* PDF Viewer */}
             <div className="section">
