@@ -457,9 +457,18 @@ function Timeline() {
                     </div>
                     <div className="roadmap-timeline">
                       <div className="roadmap-timeline-grid">
-                        {dates.map((day) => (
-                          <div key={day} className="roadmap-grid-cell"></div>
-                        ))}
+                        {dates.map((day) => {
+                          const isToday = day === 5; // Mock today as Oct 5
+                          return (
+                            <div 
+                              key={day} 
+                              className={`roadmap-grid-cell ${isToday ? "today" : ""}`}
+                              style={isToday ? {
+                                background: "rgba(191, 219, 254, 0.1)",
+                              } : {}}
+                            ></div>
+                          );
+                        })}
                       </div>
                       <div
                         className={`roadmap-bar ${
