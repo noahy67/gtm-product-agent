@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useLaunchContext } from "../context/LaunchContext";
 
 function Communications() {
+  const { launch } = useLaunchContext();
   const [activeTab, setActiveTab] = useState("standup");
 
   const tabs = [
@@ -130,7 +132,20 @@ Intended Audience: GTM Team, Leadership
   return (
     <>
       <div className="header">
-        <h1 className="header-title">Communications Hub</h1>
+        <div>
+          <h1 className="header-title">
+            Communications Hub — {launch?.name || "Launch"}
+          </h1>
+          <div
+            style={{
+              fontSize: "13px",
+              color: "var(--text-muted)",
+              marginTop: "4px",
+            }}
+          >
+            Scope: {launch?.name || "Launch"}
+          </div>
+        </div>
         <div className="header-actions">
           <button className="btn btn-secondary">
             <span>🤖</span>

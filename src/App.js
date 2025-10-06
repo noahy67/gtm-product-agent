@@ -5,34 +5,82 @@ import {
   Route,
   Link,
   useLocation,
+  useNavigate,
+  useParams,
 } from "react-router-dom";
 import "./App.css";
-import Dashboard from "./pages/Dashboard";
+import { LaunchContextProvider } from "./context/LaunchContext";
+import { launches } from "./data/portfolioMock";
+import GlobalDashboard from "./pages/GlobalDashboard";
+import LaunchesList from "./pages/LaunchesList";
+import LaunchDashboard from "./pages/LaunchDashboard";
 import PRDUpload from "./pages/PRDUpload";
 import Timeline from "./pages/Timeline";
 import Communications from "./pages/Communications";
 import Settings from "./pages/Settings";
 import CreateLaunch from "./pages/CreateLaunch";
+import SLARules from "./pages/SLARules";
 
-function Sidebar() {
+function UnifiedSidebar() {
   const location = useLocation();
-  const [selectedLaunch, setSelectedLaunch] = React.useState(
-    "Product v2.0 Launch"
+  const navigate = useNavigate();
+  const [launchesExpanded, setLaunchesExpanded] = React.useState(true);
+  const [expandedLaunchId, setExpandedLaunchId] = React.useState(null);
+  const [searchQuery, setSearchQuery] = React.useState("");
+
+  // Determine current launch from URL
+  const currentLaunchId = location.pathname.match(/\/launch\/([^/]+)/)?.[1];
+
+  React.useEffect(() => {
+    if (currentLaunchId) {
+      setExpandedLaunchId(currentLaunchId);
+      setLaunchesExpanded(true);
+    }
+  }, [currentLaunchId]);
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "on_track":
+        return "#10b981";
+      case "at_risk":
+        return "#f59e0b";
+      case "delayed":
+        return "#ef4444";
+      default:
+        return "#6b7280";
+    }
+  };
+
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case "on_track":
+        return "On Track";
+      case "at_risk":
+        return "At Risk";
+      case "delayed":
+        return "Delayed";
+      default:
+        return "Unknown";
+    }
+  };
+
+  const filteredLaunches = launches.filter((launch) =>
+    launch.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  const [showDropdown, setShowDropdown] = React.useState(false);
 
-  const launches = [
-    "Product v2.0 Launch",
-    "Q4 Marketing Campaign",
-    "Mobile App Release",
-    "Enterprise Feature Rollout",
-  ];
+  const toggleLaunch = (launchId) => {
+    if (expandedLaunchId === launchId) {
+      setExpandedLaunchId(null);
+    } else {
+      setExpandedLaunchId(launchId);
+    }
+  };
 
-  const navItems = [
-    { path: "/", icon: "📊", label: "Dashboard" },
-    { path: "/prd-upload", icon: "📄", label: "PRD Upload" },
-    { path: "/timeline", icon: "📅", label: "Launch Timeline" },
-    { path: "/communications", icon: "💬", label: "Communications" },
+  const launchSubItems = [
+    { path: "dashboard", icon: "📊", label: "Dashboard" },
+    { path: "prd", icon: "📄", label: "PRD Upload" },
+    { path: "timeline", icon: "📅", label: "Timeline" },
+    { path: "communications", icon: "💬", label: "Communications" },
   ];
 
   return (
@@ -42,94 +90,141 @@ function Sidebar() {
           <div className="logo-icon">🚀</div>
           <span>GTM Agent</span>
         </div>
+      </div>
 
-        <div style={{ marginTop: "16px", position: "relative" }}>
-          <div
-            className="launch-selector"
-            onClick={() => setShowDropdown(!showDropdown)}
+      <nav className="nav notion-nav">
+        {/* Portfolio Section */}
+        <div className="nav-section">
+          <div className="nav-section-label">PORTFOLIO</div>
+
+          <Link
+            to="/"
+            className={`nav-item ${location.pathname === "/" ? "active" : ""}`}
           >
-            <div
-              style={{
-                flex: 1,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {selectedLaunch}
-            </div>
-            <span style={{ fontSize: "12px" }}>▼</span>
+            <span className="nav-icon">🏠</span>
+            <span>Home / Dashboard</span>
+          </Link>
+        </div>
+
+        {/* Launches Section */}
+        <div className="nav-section">
+          <div
+            className="nav-item collapsible"
+            onClick={() => setLaunchesExpanded(!launchesExpanded)}
+          >
+            <span className="nav-icon">{launchesExpanded ? "▼" : "▶"}</span>
+            <span style={{ flex: 1 }}>Launches</span>
+            <span className="badge">{launches.length}</span>
           </div>
 
-          {showDropdown && (
-            <div className="launch-dropdown">
-              {launches.map((launch) => (
-                <div
-                  key={launch}
-                  className="launch-dropdown-item"
-                  onClick={() => {
-                    setSelectedLaunch(launch);
-                    setShowDropdown(false);
-                  }}
-                >
-                  {launch}
-                  {launch === selectedLaunch && (
-                    <span
-                      style={{
-                        marginLeft: "auto",
-                        color: "var(--accent-blue)",
-                      }}
-                    >
-                      ✓
+          {launchesExpanded && (
+            <div className="nav-submenu">
+              {/* Search */}
+              <div className="launch-search">
+                <input
+                  type="text"
+                  placeholder="Search launches..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="launch-search-input"
+                />
+              </div>
+
+              {/* Launch List */}
+              {filteredLaunches.map((launch) => (
+                <div key={launch.id} className="launch-item-container">
+                  <div
+                    className={`nav-item launch-item ${
+                      currentLaunchId === launch.id ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      toggleLaunch(launch.id);
+                      navigate(`/launch/${launch.id}/dashboard`);
+                    }}
+                  >
+                    <span className="nav-icon">
+                      {expandedLaunchId === launch.id ? "▼" : "▶"}
                     </span>
+                    <div className="launch-item-content">
+                      <div className="launch-item-title">
+                        <span
+                          className="status-dot"
+                          style={{ background: getStatusColor(launch.status) }}
+                        ></span>
+                        <span className="launch-name">{launch.name}</span>
+                      </div>
+                      <span
+                        className="status-chip"
+                        style={{
+                          background: `${getStatusColor(launch.status)}22`,
+                          color: getStatusColor(launch.status),
+                        }}
+                      >
+                        {getStatusLabel(launch.status)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Launch Sub-items */}
+                  {expandedLaunchId === launch.id && (
+                    <div className="launch-subitems">
+                      {launchSubItems.map((item) => {
+                        const fullPath = `/launch/${launch.id}/${item.path}`;
+                        return (
+                          <Link
+                            key={item.path}
+                            to={fullPath}
+                            className={`nav-item sub-item ${
+                              location.pathname === fullPath ? "active" : ""
+                            }`}
+                          >
+                            <span className="nav-icon">{item.icon}</span>
+                            <span>{item.label}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
                   )}
                 </div>
               ))}
-              <div className="launch-dropdown-divider"></div>
-              <Link
-                to="/create-launch"
-                className="launch-dropdown-item"
-                style={{
-                  color: "var(--accent-blue)",
-                  fontWeight: "500",
-                  textDecoration: "none",
-                }}
-                onClick={() => setShowDropdown(false)}
+
+              {/* New Launch Button */}
+              <button
+                className="nav-item new-launch-btn"
+                onClick={() => navigate("/create-launch")}
               >
-                <span>➕</span>
-                <span>Create New Launch</span>
-              </Link>
+                <span className="nav-icon">➕</span>
+                <span>New Launch</span>
+              </button>
             </div>
           )}
         </div>
-      </div>
-      <nav className="nav">
-        {navItems.map((item) => (
+
+        {/* SLA Rules */}
+        <div className="nav-section">
           <Link
-            key={item.path}
-            to={item.path}
+            to="/sla-rules"
             className={`nav-item ${
-              location.pathname === item.path ? "active" : ""
+              location.pathname === "/sla-rules" ? "active" : ""
             }`}
           >
-            <span className="nav-icon">{item.icon}</span>
-            <span>{item.label}</span>
+            <span className="nav-icon">⏱️</span>
+            <span>SLA Rules</span>
           </Link>
-        ))}
+
+          <Link
+            to="/settings"
+            className={`nav-item ${
+              location.pathname === "/settings" ? "active" : ""
+            }`}
+          >
+            <span className="nav-icon">⚙️</span>
+            <span>Settings</span>
+          </Link>
+        </div>
       </nav>
 
       <div className="sidebar-footer">
-        <Link
-          to="/settings"
-          className={`nav-item ${
-            location.pathname === "/settings" ? "active" : ""
-          }`}
-          style={{ marginBottom: "8px" }}
-        >
-          <span className="nav-icon">⚙️</span>
-          <span>Settings</span>
-        </Link>
-
         <div className="profile-section">
           <div className="profile-avatar">PM</div>
           <div style={{ flex: 1, overflow: "hidden" }}>
@@ -143,24 +238,131 @@ function Sidebar() {
   );
 }
 
+function AppLayout({ children }) {
+  return (
+    <div className="app">
+      <UnifiedSidebar />
+      <div className="main-content">{children}</div>
+    </div>
+  );
+}
+
+function LaunchRouteWrapper({ children }) {
+  const { launchId } = useParams();
+
+  return (
+    <LaunchContextProvider launchId={launchId}>
+      {children}
+    </LaunchContextProvider>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <div className="app">
-        <Sidebar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/create-launch" element={<CreateLaunch />} />
-            <Route path="/prd-upload" element={<PRDUpload />} />
-            <Route path="/timeline" element={<Timeline />} />
-            <Route path="/communications" element={<Communications />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </div>
-      </div>
+      <Routes>
+        {/* Global Routes */}
+        <Route
+          path="/"
+          element={
+            <AppLayout>
+              <GlobalDashboard />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/launches"
+          element={
+            <AppLayout>
+              <LaunchesList />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/sla-rules"
+          element={
+            <AppLayout>
+              <SLARules />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <AppLayout>
+              <Settings />
+            </AppLayout>
+          }
+        />
+        <Route path="/create-launch" element={<CreateLaunch />} />
+
+        {/* Launch-Scoped Routes */}
+        <Route
+          path="/launch/:launchId/dashboard"
+          element={
+            <AppLayout>
+              <LaunchRouteWrapper>
+                <LaunchDashboard />
+              </LaunchRouteWrapper>
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/launch/:launchId/prd"
+          element={
+            <AppLayout>
+              <LaunchRouteWrapper>
+                <PRDUpload />
+              </LaunchRouteWrapper>
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/launch/:launchId/timeline"
+          element={
+            <AppLayout>
+              <LaunchRouteWrapper>
+                <Timeline />
+              </LaunchRouteWrapper>
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/launch/:launchId/communications"
+          element={
+            <AppLayout>
+              <LaunchRouteWrapper>
+                <Communications />
+              </LaunchRouteWrapper>
+            </AppLayout>
+          }
+        />
+
+        {/* Redirect old routes to launch-scoped */}
+        <Route
+          path="/prd-upload"
+          element={<RedirectToLaunch subRoute="prd" />}
+        />
+        <Route
+          path="/timeline"
+          element={<RedirectToLaunch subRoute="timeline" />}
+        />
+        <Route
+          path="/communications"
+          element={<RedirectToLaunch subRoute="communications" />}
+        />
+      </Routes>
     </Router>
   );
+}
+
+function RedirectToLaunch({ subRoute }) {
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    // Redirect to first launch for backwards compatibility
+    navigate(`/launch/launch-1/${subRoute}`);
+  }, [navigate, subRoute]);
+  return null;
 }
 
 export default App;

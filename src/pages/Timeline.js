@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useLaunchContext } from "../context/LaunchContext";
 
 function Timeline() {
+  const { launch } = useLaunchContext();
   const [viewMode, setViewMode] = useState("month");
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -358,7 +360,20 @@ function Timeline() {
   return (
     <>
       <div className="header">
-        <h1 className="header-title">Launch Roadmap</h1>
+        <div>
+          <h1 className="header-title">
+            Launch Roadmap — {launch?.name || "Launch"}
+          </h1>
+          <div
+            style={{
+              fontSize: "13px",
+              color: "var(--text-muted)",
+              marginTop: "4px",
+            }}
+          >
+            Scope: {launch?.name || "Launch"}
+          </div>
+        </div>
         <div className="header-actions">
           <div className="view-mode-toggle">
             <button

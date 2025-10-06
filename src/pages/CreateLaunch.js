@@ -29,8 +29,10 @@ function CreateLaunch() {
 
   const nextStep = () => {
     if (currentStep === steps.length - 1) {
-      // Last step - create launch and navigate to dashboard
-      navigate("/");
+      // Last step - create launch and navigate to new launch dashboard
+      // In a real app, this would create the launch and get the ID
+      // For now, navigate to the first launch
+      navigate("/launch/launch-1/dashboard");
     } else if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
@@ -46,6 +48,18 @@ function CreateLaunch() {
     <div className="create-launch-container">
       {/* Progress Bar */}
       <div className="create-launch-header">
+        <button
+          className="btn btn-secondary"
+          onClick={() => navigate("/")}
+          style={{
+            position: "absolute",
+            top: "20px",
+            left: "20px",
+            zIndex: 10,
+          }}
+        >
+          ← Back to Portfolio
+        </button>
         <div className="progress-bar-container">
           <div className="progress-bar-track">
             <div

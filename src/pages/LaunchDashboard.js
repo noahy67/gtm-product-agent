@@ -1,10 +1,25 @@
 import React from "react";
+import { useLaunchContext } from "../context/LaunchContext";
 
-function Dashboard() {
+function LaunchDashboard() {
+  const { launch } = useLaunchContext();
   return (
     <>
       <div className="header">
-        <h1 className="header-title">Dashboard</h1>
+        <div>
+          <h1 className="header-title">
+            Dashboard — {launch?.name || "Launch"}
+          </h1>
+          <div
+            style={{
+              fontSize: "13px",
+              color: "var(--text-muted)",
+              marginTop: "4px",
+            }}
+          >
+            Scope: {launch?.name || "Launch"}
+          </div>
+        </div>
         <div className="header-actions">
           <button className="btn btn-secondary">
             <span>🔁</span>
@@ -277,4 +292,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default LaunchDashboard;
